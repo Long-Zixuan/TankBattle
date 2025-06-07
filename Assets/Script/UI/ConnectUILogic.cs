@@ -4,12 +4,20 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Net;
+using System.Net.Sockets;
 
 public class ConnectUILogic : MonoBehaviour
 {
+    [Header("Massage")]
+    public Text massage;
+    [Header("Input")]
     public InputField ipInput;
     public InputField connectPortInput;
     public InputField creatPortInput;
+    [Header("UI")]
+    public GameObject connectUI;
+    [Header("Net")]
     
     public string IP = "127.0.0.1";
     public int port = 8888;
@@ -30,6 +38,22 @@ public class ConnectUILogic : MonoBehaviour
        Debug.Log("ip:"+IP+" port:"+port); 
     }
 
+    string getIp()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        string ipStr = "Unkown";
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                Console.WriteLine("IP Address = " + ip.ToString());
+                ipStr = ip.ToString();
+            }
+        }
+
+        return ipStr;
+    }
+
     public void creatAndConnectToServes()
     {
         try
@@ -48,8 +72,11 @@ public class ConnectUILogic : MonoBehaviour
             serves.Start();
             printIpAndPort();
             NetManager.Connect(IP, port);
-            Invoke("timeOut", 5f);
+            
             NetManager.Send("Enter|"+NetManager.GetDesc());
+            connectUI.SetActive(false);
+            string msg = "游戏已经在局域网内启动，请输入IP地址和端口号连接。IP：" + getIp() + " 端口:" + port;;
+            massage.text = msg;
         }
         catch (System.Exception e)
         {
@@ -81,6 +108,8 @@ public class ConnectUILogic : MonoBehaviour
         }
         try
         {
+            massage.text = "连接中";
+            connectUI.SetActive(false);
             printIpAndPort();
             NetManager.Connect(IP, port);
             Invoke("timeOut", 5f);
@@ -94,6 +123,7 @@ public class ConnectUILogic : MonoBehaviour
 
     void timeOut()
     {
+        massage.text = "连接超时";
         Debug.Log("time out");
     }
     
