@@ -16,4 +16,41 @@ public class BaseSceneLogic : MonoBehaviour
     {
         NetManager.Update();
     }
+    
+    public virtual void OnStart(string msgArgs)
+    {
+        
+    }
+
+    public virtual void OnEnter(string msgArgs)
+    {
+	    
+    }
+
+    public virtual void OnList (string msgArgs) 
+    {
+		
+	}
+
+	public virtual void OnRotate (string msgArgs) {
+		
+	}
+	
+	public virtual void OnMove (string msgArgs) {
+
+	}
+
+	public virtual void OnLeave (string msgArgs) {
+
+	}
+
+	public virtual void OnFire (string msgArgs) {
+	
+	}
+
+	public virtual void OnDie (string msgArgs) {
+		
+	}
+	
+	
 }

@@ -11,6 +11,12 @@ public class BaseTank : MonoBehaviour
     protected Rigidbody _rb;
 
     protected bool _isDie = false;
+    
+    public bool IsDie
+    {
+        get { return _isDie; }
+        set { _isDie = value; }
+    }
 
     protected bool _dieed = false;
 
@@ -38,6 +44,7 @@ public class BaseTank : MonoBehaviour
     // Update is called once per frame
     protected void Update()
     {
+        print(desc+":"+IsDie);
         if (_isDie)
         {
             DieLogic();
@@ -46,6 +53,12 @@ public class BaseTank : MonoBehaviour
         MoveLogic();
     }
 
+    public virtual void Attacked()
+    {
+        print("base被攻击");
+    }
+    
+
 
     protected virtual void DieLogic()
     {
@@ -53,8 +66,10 @@ public class BaseTank : MonoBehaviour
         {
             return;
         }
+        print("base死亡");
         _animator.SetTrigger("Die");
         _dieed = true;
+        gameObject.SetActive(false);
     }
 
     protected virtual void MoveLogic()

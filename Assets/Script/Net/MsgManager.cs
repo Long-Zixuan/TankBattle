@@ -42,7 +42,7 @@ public class MsgManager
     void OnEnter (string msgArgs) 
     {
 	    MonoBehaviour.print("OnEnter");
-	    try
+	    /*try
 	    {
 		    ConnectSceneLogic csl = (ConnectSceneLogic)sceneLogic;
 		    csl.OnEnter(msgArgs);
@@ -50,11 +50,12 @@ public class MsgManager
 	    catch (System.Exception e)
 	    {
 		    Debug.Log("OnEnter error:" + e.Message);  
-	    }
+	    }*/
+	    sceneLogic.OnEnter(msgArgs);
 	}
 
 	void OnList (string msgArgs) {
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnList(msgArgs);
@@ -62,12 +63,13 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnList error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnList(msgArgs);
 	}
 
 	void OnRotate (string msgArgs) 
 	{
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnRotate(msgArgs);
@@ -75,13 +77,14 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnRotate error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnRotate(msgArgs);
 		
 	}
 	
 	void OnMove (string msgArgs) 
 	{
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnMove(msgArgs);
@@ -89,12 +92,13 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnMove error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnMove(msgArgs);
 	}
 
 	void OnLeave (string msgArgs) 
 	{
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnLeave(msgArgs);
@@ -102,12 +106,13 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnLeave error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnLeave(msgArgs);
 	}
 
 	void OnFire (string msgArgs) 
 	{
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnFire(msgArgs);
@@ -115,12 +120,13 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnFire error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnFire(msgArgs);
 	}
 
 	void OnDie (string msgArgs) 
 	{
-		try
+		/*try
 		{
 			SceneMainLogic sml = (SceneMainLogic)sceneLogic;
 			sml.OnDie(msgArgs);
@@ -128,12 +134,13 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnDie error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnDie(msgArgs);
 	}
 
 	void OnStart(string msgArgs)
 	{
-		try
+		/*try
 		{
 			MonoBehaviour.print("OnStart");
 			ConnectSceneLogic csl = (ConnectSceneLogic)sceneLogic;
@@ -142,7 +149,8 @@ public class MsgManager
 		catch (System.Exception e)
 		{
 			Debug.Log("OnStart error:" + e.Message);  
-		}
+		}*/
+		sceneLogic.OnStart(msgArgs);
 	}
 	
 	

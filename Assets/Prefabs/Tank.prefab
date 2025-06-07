@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2102108453014503611}
   - component: {fileID: 2102108453014503604}
   - component: {fileID: 212583573342056544}
-  - component: {fileID: 1291786876335809282}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Tank
@@ -87,24 +86,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4415748, y: 1.8478503, z: 2.2157414}
   m_Center: {x: 0.019272327, y: 0.81969714, z: -0.0328964}
---- !u!114 &1291786876335809282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1291786876335809309}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7984dc080ce8c80479b10cf4b143f036, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
-  bulletPrefab: {fileID: 3344708145870087895, guid: 0706c1b34c363c84a89757aabb9493f3, type: 3}
-  speed: 2
-  turnSpeed: 5
-  fireSpeed: 4
-  desc: 
 --- !u!1 &2758056265135430941
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,7 +362,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7062181787402403320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.568, z: 1.363}
+  m_LocalPosition: {x: 0, y: 1.374, z: 1.363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

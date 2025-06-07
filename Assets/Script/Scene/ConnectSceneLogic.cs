@@ -19,7 +19,7 @@ public class ConnectSceneLogic : BaseSceneLogic
         //chatTextLogic();
     }
     
-    public void OnEnter (string msgArgs) {
+    public override void OnEnter (string msgArgs) {
         Debug.Log("OnEnter " + msgArgs);
         //解析参数
         string[] split = msgArgs.Split(',');
@@ -40,7 +40,7 @@ public class ConnectSceneLogic : BaseSceneLogic
         //otherHumans.Add(desc, h);
     }
 
-    public void OnStart(string msgArgs)
+    public override void OnStart(string msgArgs)
     {
         string scIndex = msgArgs;
         //SceneManager.LoadScene(scIndex);

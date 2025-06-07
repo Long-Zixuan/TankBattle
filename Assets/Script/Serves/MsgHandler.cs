@@ -32,18 +32,24 @@ public class MsgHandler
 		
 		if (count > 1)
 		{
-			Random rand = new Random();
-			int scIndex = rand.Next(0, 4);
-			sendStr = "Start|" + scIndex.ToString();
-			foreach (ClientState cs in ServesMain.clients.Values){
-				ServesMain.Send(cs, sendStr);
-			}
+			LoadScene();
+		}
+	}
+
+	private static void LoadScene()
+	{
+		Random rand = new Random();
+		int scIndex = rand.Next(0, 4);
+		string sendStr = "Start|" + scIndex.ToString();
+		foreach (ClientState cs in ServesMain.clients.Values){
+			ServesMain.Send(cs, sendStr);
 		}
 	}
 
 	public static void MsgList(ClientState c, string msgArgs){
 		string sendStr = "List|";
 		foreach (ClientState cs in ServesMain.clients.Values){
+			cs.isDie = false;
 			sendStr+=cs.socket.RemoteEndPoint.ToString() + ",";
 			sendStr+=cs.x.ToString() + ",";
 			sendStr+=cs.y.ToString() + ",";
@@ -116,27 +122,34 @@ public class MsgHandler
 		}
 	}
 
-	public static void MsgHit(ClientState c, string msgArgs){
+	public static void MsgAttacked(ClientState c, string msgArgs){
 		//解析参数
 		string[] split = msgArgs.Split(',');
-		string attDesc = split[0];
-		string hitDesc = split[1];
+		string attackedDesc = split[0];
 		//被攻击
 		ClientState hitCS = null;
 		foreach (ClientState cs in ServesMain.clients.Values){
-			if(cs.socket.RemoteEndPoint.ToString() == hitDesc)
+			if(cs.socket.RemoteEndPoint.ToString() == attackedDesc)
 				hitCS = cs;
 		}
 		if(hitCS == null) 
 			return;
 
-		//hitCS.hp -= 25;
-		/*if(hitCS.hp <= 0){
-			string sendStr = "Die|" + hitCS.socket.RemoteEndPoint.ToString();
-			foreach (ClientState cs in MainClass.clients.Values){
-				MainClass.Send(cs, sendStr);
+		hitCS.isDie = true;
+		int liveTankCount = 0;
+		string sendStr = "Die|" + attackedDesc;
+		foreach (ClientState cs in ServesMain.clients.Values){
+			ServesMain.Send(cs, sendStr);
+			if (!cs.isDie)
+			{
+				liveTankCount++;
 			}
-		}*/
+		}
+
+		if (liveTankCount == 1)
+		{
+			LoadScene();
+		}
 	}
 	public static void MsgSendChatMSG(ClientState c,string msgArgs)
 	{

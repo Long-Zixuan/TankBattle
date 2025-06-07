@@ -28,8 +28,11 @@ public class CtrlTank : BaseTank
     {
         if(Input.GetButtonDown("Jump"))
         {
+            GameObject bulletObj = Instantiate(bulletPrefab);
+            Bullet bulLogic = bulletObj.GetComponent<Bullet>();
+            bulLogic.Init(new Color(1,1,1));
             // 创建一颗子弹
-            Rigidbody bullet = Instantiate(bulletPrefab).GetComponent<Rigidbody>();
+            Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
 
             bullet.transform.forward = _tankGun.forward;         // 炮弹的朝向，与炮口朝向一致
             bullet.transform.position = _tankGun.position;       // 炮弹位置等于炮口位置
@@ -113,4 +116,11 @@ public class CtrlTank : BaseTank
         // 设置坦克刚体的角速度，就转起来了
         _rb.angularVelocity = new Vector3(0, x, 0) * turnSpeed;
     }
+
+    public override void Attacked()
+    {
+        print("Ctrl被击中了");
+        NetManager.Send("Attacked|"+desc);
+    }
+    
 }

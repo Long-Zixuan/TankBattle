@@ -22,8 +22,14 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Invoke("SelfDestory", destoryTime);
+        
        // _velocity = rb.velocity;
+    }
+
+    public void Init(Color color)
+    {
+        GetComponent<Renderer>().material.color = color;
+        Invoke("SelfDestory", destoryTime);
     }
 
     private void Awake()
@@ -46,7 +52,9 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Tank"))
         {
-            
+            BaseTank tank = other.gameObject.GetComponent<BaseTank>();
+            tank.Attacked();
+            SelfDestory();
         }
 
        /* if (other.gameObject.CompareTag("Wall"))

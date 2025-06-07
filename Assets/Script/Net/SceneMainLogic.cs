@@ -93,7 +93,7 @@ public class SceneMainLogic : BaseSceneLogic
 
 	
 
-	public void OnList (string msgArgs) {
+	public override void OnList (string msgArgs) {
 		Debug.Log("OnList " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
@@ -132,7 +132,7 @@ public class SceneMainLogic : BaseSceneLogic
 		}
 	}
 
-	public void OnRotate (string msgArgs) {
+	public override void OnRotate (string msgArgs) {
 		Debug.Log("OnRotate " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
@@ -152,7 +152,7 @@ public class SceneMainLogic : BaseSceneLogic
 		
 	}
 	
-	public void OnMove (string msgArgs) {
+	public override void OnMove (string msgArgs) {
 		Debug.Log("OnMove " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
@@ -171,7 +171,7 @@ public class SceneMainLogic : BaseSceneLogic
 		h.transform.position = new Vector3(posX, posY, posZ);
 	}
 
-	public void OnLeave (string msgArgs) {
+	public override void OnLeave (string msgArgs) {
 		Debug.Log("OnLeave " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
@@ -184,7 +184,7 @@ public class SceneMainLogic : BaseSceneLogic
 		otherHumans.Remove(desc);
 	}
 
-	public void OnFire (string msgArgs) {
+	public override void OnFire (string msgArgs) {
 		Debug.Log("OnFire " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
@@ -206,25 +206,32 @@ public class SceneMainLogic : BaseSceneLogic
 		h.Fire(rotate,position);
 	}
 
-	public void OnDie (string msgArgs) {
-		Debug.Log("OnAttack " + msgArgs);
+	public override void OnDie (string msgArgs) {
+		Debug.Log("OnAttack: " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
-		string attDesc = split[0];
-		string hitDesc = split[0];
+		string attackedDesc = split[0];
 		//自己死了
-		if(hitDesc == myTank.desc){
+		if(attackedDesc == myTank.desc){
 			Debug.Log("Game Over");
+			myTank.IsDie  = true;
 			return;
 		}
 		//死了
-		if(!otherHumans.ContainsKey(hitDesc))
+		if(!otherHumans.ContainsKey(attackedDesc))
 			return;
-		SyncTank h = (SyncTank)otherHumans[hitDesc];
-		h.gameObject.SetActive(false);
+		SyncTank h = (SyncTank)otherHumans[attackedDesc];
+		h.IsDie = true;
 
 	}
 	
+	public override void OnStart(string msgArgs)
+	{
+		print("加分等。。。。");
+		string scIndex = msgArgs;
+		//SceneManager.LoadScene(scIndex);
+		SceneManager.LoadScene("Scenes/SampleScene");
+	}
 	
 
 }

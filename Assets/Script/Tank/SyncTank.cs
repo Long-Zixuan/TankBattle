@@ -12,7 +12,10 @@ public class SyncTank : BaseTank
     {
         transform.eulerAngles = rotate;
         transform.position = position;
-        Rigidbody bullet = Instantiate(bulletPrefab).GetComponent<Rigidbody>();
+        GameObject bulletObj = Instantiate(bulletPrefab);
+        Bullet bulLogic = bulletObj.GetComponent<Bullet>();
+        bulLogic.Init(Color.black);
+        Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
 
         bullet.transform.forward = _tankGun.forward;         // 炮弹的朝向，与炮口朝向一致
         bullet.transform.position = _tankGun.position;       // 炮弹位置等于炮口位置
