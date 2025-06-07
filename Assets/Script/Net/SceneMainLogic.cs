@@ -224,13 +224,20 @@ public class SceneMainLogic : BaseSceneLogic
 		h.IsDie = true;
 
 	}
-	
+
+	private string nextSceneName;
 	public override void OnStart(string msgArgs)
 	{
 		print("加分等。。。。");
-		string scIndex = msgArgs;
+		nextSceneName = "Scenes/Map/"+msgArgs;
 		//SceneManager.LoadScene(scIndex);
-		SceneManager.LoadScene("Scenes/SampleScene");
+		//SceneManager.LoadScene("Scenes/SampleScene");
+		Invoke("EndLogic", 5f);
+	}
+
+	void EndLogic()
+	{
+		SceneManager.LoadScene(nextSceneName);
 	}
 	
 

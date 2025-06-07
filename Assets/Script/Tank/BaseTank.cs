@@ -69,7 +69,7 @@ public class BaseTank : MonoBehaviour
         print("base死亡");
         _animator.SetTrigger("Die");
         _dieed = true;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     protected virtual void MoveLogic()

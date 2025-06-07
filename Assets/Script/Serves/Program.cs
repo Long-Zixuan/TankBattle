@@ -23,6 +23,9 @@ class ServesMain
 	public static Socket listenfd;
 	//客户端Socket及状态信息
 	public static Dictionary<Socket, ClientState> clients = new Dictionary<Socket, ClientState>();
+	
+	//public static string IP = "127.0.0.1";
+	public static int PORT = 8888;
 
 	public static void MainLogic ()
 	{
@@ -30,8 +33,9 @@ class ServesMain
 		listenfd = new Socket(AddressFamily.InterNetwork,
 						SocketType.Stream, ProtocolType.Tcp);
 		//Bind
-		IPAddress ipAdr = IPAddress.Parse("127.0.0.1");
-		IPEndPoint ipEp = new IPEndPoint(ipAdr, 8888);
+		//IPAddress ipAdr = IPAddress.Parse(IP);
+		IPAddress ipAdr = IPAddress.Any;
+		IPEndPoint ipEp = new IPEndPoint(ipAdr, PORT);
 		listenfd.Bind(ipEp);
 		//Listen
 		listenfd.Listen(0);
