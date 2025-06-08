@@ -56,14 +56,22 @@ public class ConnectUILogic : MonoBehaviour
 
     public void creatAndConnectToServes()
     {
+        string msg = "";
         try
         {
+            if (int.Parse(ipInput.text) > 65535 || int.Parse(ipInput.text) < 0)
+            {
+                massage.text = "端口号在0-65535之间";
+                return;
+            }
             ServesMain.PORT = int.Parse(creatPortInput.text);
             port = ServesMain.PORT;
         }
         catch (Exception e)
         {
             ServesMain.PORT = 25565;
+            port = ServesMain.PORT;
+            msg += "端口号应该是个数字\n";
             Debug.Log(e.ToString());
         }
         try
@@ -75,7 +83,7 @@ public class ConnectUILogic : MonoBehaviour
             
             NetManager.Send("Enter|"+NetManager.GetDesc());
             connectUI.SetActive(false);
-            string msg = "游戏已经在局域网内启动，请输入IP地址和端口号连接。IP：" + getIp() + " 端口:" + port;;
+            msg += "游戏已经在局域网内启动，请输入IP地址和端口号连接。IP：" + getIp() + " 端口:" + port;;
             massage.text = msg;
         }
         catch (System.Exception e)
@@ -84,6 +92,35 @@ public class ConnectUILogic : MonoBehaviour
         }
     }
 
+    bool isVakidIP(string ipStr,out string errorMsg)
+    {
+        string[] ipNums = ipStr.Split('.');
+        if (ipNums.Length < 4)
+        {
+            errorMsg = "IP地址由四个数字组成，且用“.”隔开";
+            return false;
+        }
+
+        foreach (var num in ipNums)
+        {
+            try
+            {
+                int numInt = int.Parse(num);
+                if (numInt > 255 || numInt < 0)
+                {
+                    errorMsg = "IP由数字组成，且每个数字在0-255之间";
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                errorMsg = "IP由数字组成";
+                return false;
+            }
+        }
+        errorMsg = "IP地址合法";
+        return true; 
+    }
     public void connectToServer()
     {
         try
@@ -95,16 +132,20 @@ public class ConnectUILogic : MonoBehaviour
         {
             Debug.Log(e.ToString());
         }
-
-        if (IP.Split('.').Length < 4)
+        
+        string errorMsg;
+        if (!isVakidIP(IP,out errorMsg))
         {
             Debug.Log("ip error");
+            massage.text = "非法的IP地址："+IP+"。"+errorMsg;
             return;
         }
         if (port <= 1024 || port > 65535)
         {
             Debug.Log("port error");
-            port = 25565;
+            massage.text = "端口号应在1024-65535之间";
+            return;
+            //port = 25565;
         }
         try
         {

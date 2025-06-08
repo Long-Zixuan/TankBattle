@@ -38,6 +38,11 @@ public class MsgManager
     {
 	    sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
     }
+
+    public void upDateSceneManage(BaseSceneLogic logic)
+    {
+	    sceneLogic = logic;
+    }
     
     void OnEnter (string msgArgs) 
     {

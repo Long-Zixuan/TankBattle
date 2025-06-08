@@ -5,10 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class BaseSceneLogic : MonoBehaviour
 {
+	protected List<IObjInScene>listeners = new List<IObjInScene>();
+
+	public void AddListener(IObjInScene listener)
+	{
+		listeners.Add(listener);
+	}
+	protected bool _isStart = false;
+
+	public bool IsStrt
+	{
+		get
+		{
+			return _isStart;
+		}
+	}
     // Start is called before the first frame update
     protected void Start()
     {
-        MsgManager.Instance.upDateSceneManage();
+        MsgManager.Instance.upDateSceneManage(this);
     }
 
     // Update is called once per frame

@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
  
 [ExecuteInEditMode]
 public class GetPlayerPos : MonoBehaviour
 {
-    private GameObject player;
+    private GameObject player = null;
     public Material material;
     // Start is called before the first frame update
 
@@ -18,7 +19,15 @@ public class GetPlayerPos : MonoBehaviour
     {
         if (!findPlayer)
         {
-            player = GameObject.FindObjectOfType<CtrlTank>().gameObject;
+            try
+            {
+                player = GameObject.FindObjectOfType<CtrlTank>().gameObject;
+            }
+            catch (Exception e)
+            {
+                print(e.ToString());
+            }
+            
             if (player != null)
             {
                 findPlayer = true;
@@ -26,7 +35,7 @@ public class GetPlayerPos : MonoBehaviour
         }
         else
         {
-            print(player.transform.position);
+//            print(player.transform.position);
             material.SetVector("_PlayerPos", player.transform.position);
         }
     }

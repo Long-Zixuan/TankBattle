@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class SceneMainLogic : BaseSceneLogic
 {
+	public GameObject localPlayerScore;
+	public GameObject netPlayerScore;
+	
+	
 	private List<string> chatMSGList = new List<string>();
 	//public Text chatUIText;
 	
@@ -18,41 +22,67 @@ public class SceneMainLogic : BaseSceneLogic
 	
 	public Transform[] bornPoints;
 	
+	/*服务器只有两个玩家所以凑合一下*/
+	public BaseTank netTank;
+
+	private AudioSource _plusScore;
 
 	new void Start () {
 		base.Start();
 		NetManager.Send("List|");
-		//网络模块
-		/*NetManager.AddListener("Enter", OnEnter);
-		NetManager.AddListener("List", OnList);
-		NetManager.AddListener("Move", OnMove);
-		NetManager.AddListener("Rotate", OnRotate);
-		NetManager.AddListener("Leave", OnLeave);
-		NetManager.AddListener("Fire", OnFire);
-		NetManager.AddListener("Die", OnDie);
+		Invoke("StartScene", 2f);
+		_plusScore = localPlayerScore.GetComponent<AudioSource>();
 		
-		NetManager.AddListener("GetChatMSG",getChatMSG);
-		
-		/*NetManager.Connect("127.0.0.1", 8888);
-		//添加一个角色
-		GameObject obj = (GameObject)Instantiate(tankPrefab);
-		float x = Random.Range(-5, 5);
-		float z = Random.Range(-5, 5);
-		obj.transform.position = new Vector3(x, 0, z);
-		myTank = obj.AddComponent<CtrlTank>();
-	
-		myTank.desc = NetManager.GetDesc();
-		//发送协议
-		Vector3 pos = myTank.transform.position;
-		Vector3 eul = myTank.transform.eulerAngles;
-		string sendStr = "Enter|";
-		sendStr += NetManager.GetDesc()+ ",";
-		sendStr += pos.x + ",";
-		sendStr += pos.y + ",";
-		sendStr += pos.z + ",";
-		sendStr += eul.y + ",";
-		NetManager.Send(sendStr);
-		NetManager.Send("List|");*/
+	}
+
+	void StartScene()
+	{
+		_isStart = true;
+	}
+
+	void StopScene()
+	{
+		_isStart = false;
+		print("游戏结束");
+		foreach (var obj in listeners)
+		{
+			obj.OnSceneStop();
+		}
+		if (!myTank.IsDie)
+		{
+			print("你赢了");
+			NetManager.Send("PlusScore|" + NetManager.GetDesc().ToString() + ",1");
+			try
+			{
+				Animator animator = localPlayerScore.GetComponent<Animator>();
+				animator.SetTrigger("Plus");
+				_plusScore.Play();
+				int score = int.Parse(localPlayerScore.GetComponent<Text>().text) + 1;
+				localPlayerScore.GetComponent<Text>().text = score.ToString();
+			}
+			catch (System.Exception e)
+			{
+				Debug.LogError(e.ToString());
+			}
+			
+		}
+
+		if (!netTank.IsDie)
+		{
+			print("你输了");
+			try
+			{
+				Animator animator = netPlayerScore.GetComponent<Animator>();
+				animator.SetTrigger("Plus");
+				_plusScore.Play();
+				int score = int.Parse(netPlayerScore.GetComponent<Text>().text) + 1;
+				netPlayerScore.GetComponent<Text>().text = score.ToString();
+			}
+			catch (System.Exception e)
+			{
+				Debug.LogError(e.ToString());
+			}
+		}
 	}
 
 	void getChatMSG(string msgArgs)
@@ -97,7 +127,7 @@ public class SceneMainLogic : BaseSceneLogic
 		Debug.Log("OnList " + msgArgs);
 		//解析参数
 		string[] split = msgArgs.Split(',');
-		int count = (split.Length-1)/5;
+		int count = (split.Length-1)/6;
 		if (bornPoints.Length < count)
 		{
 			Debug.LogError("出生点数量不足");
@@ -105,18 +135,19 @@ public class SceneMainLogic : BaseSceneLogic
 		}
 		for(int i = 0; i < count; i++)
 		{
-			string desc = split[i*5+0];
+			string desc = split[i*6+0];
 			/*float x = float.Parse(split[i*6+1]);
 			float y = float.Parse(split[i*6+2]);
 			float z = float.Parse(split[i*6+3]);
 			float eulY = float.Parse(split[i*6+4]);*/
-			//int hp = int.Parse(split[i*6+5]);
+			int score = int.Parse(split[i*6+5]);
 			float x = bornPoints[i].position.x;
 			float y = bornPoints[i].position.y;
 			float z = bornPoints[i].position.z;
 			float eulY = bornPoints[i].eulerAngles.y;
 			//添加一个角色
 			GameObject obj = (GameObject)Instantiate(tankPrefab);
+			Debug.Log("OnList " + desc + " " + x + " " + y + " " + z + " " + eulY + " " + score);
 			obj.transform.position = new Vector3(x, y, z);
 			obj.transform.eulerAngles = new Vector3(0, eulY, 0);
 			//是自己
@@ -124,10 +155,20 @@ public class SceneMainLogic : BaseSceneLogic
 			{
 				myTank = obj.AddComponent<CtrlTank>();
 				myTank.desc = desc;
+				myTank.Score = score;
+				localPlayerScore.GetComponent<Text>().text = score.ToString();
+				myTank.sceneLogic = this;
+				AddListener((CtrlTank)myTank);
 				continue;
 			}
 			BaseTank h = obj.AddComponent<SyncTank>();
 			h.desc = desc;
+			h.Score = score;
+			netPlayerScore.GetComponent<Text>().text = score.ToString();
+			h.sceneLogic = this;
+			netTank = h;
+			obj.transform.Find("TankRenderers/TankTurret").GetComponent<MeshRenderer>().material.color = Color.red;
+			AddListener((SyncTank)h);
 			otherHumans.Add(desc, h);
 		}
 	}
@@ -205,6 +246,7 @@ public class SceneMainLogic : BaseSceneLogic
 		SyncTank h = (SyncTank)otherHumans[desc];
 		h.Fire(rotate,position);
 	}
+	
 
 	public override void OnDie (string msgArgs) {
 		Debug.Log("OnAttack: " + msgArgs);
@@ -232,6 +274,7 @@ public class SceneMainLogic : BaseSceneLogic
 		nextSceneName = "Scenes/Map/"+msgArgs;
 		//SceneManager.LoadScene(scIndex);
 		//SceneManager.LoadScene("Scenes/SampleScene");
+		Invoke("StopScene", 3f);
 		Invoke("EndLogic", 5f);
 	}
 

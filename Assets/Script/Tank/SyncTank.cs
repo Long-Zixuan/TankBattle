@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SyncTank : BaseTank
+public class SyncTank : BaseTank,IObjInScene
 {
     private float moveX;
     
@@ -14,8 +14,10 @@ public class SyncTank : BaseTank
         transform.position = position;
         GameObject bulletObj = Instantiate(bulletPrefab);
         Bullet bulLogic = bulletObj.GetComponent<Bullet>();
+        sceneLogic.AddListener(bulLogic);
         bulLogic.Init(Color.black);
         Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
+        _fire.Play();
 
         bullet.transform.forward = _tankGun.forward;         // 炮弹的朝向，与炮口朝向一致
         bullet.transform.position = _tankGun.position;       // 炮弹位置等于炮口位置
@@ -56,5 +58,12 @@ public class SyncTank : BaseTank
         transform.Translate(Vector3.forward * speed * moveZ * Time.deltaTime);
         // 设置坦克刚体的角速度，就转起来了
         _rb.angularVelocity = new Vector3(0, moveX, 0) * turnSpeed;
+    }
+
+    public void OnSceneStop()
+    {
+        moveX = 0;
+        moveZ = 0;
+        _isStoping = true;
     }
 }

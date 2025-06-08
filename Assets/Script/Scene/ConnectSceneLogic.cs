@@ -44,7 +44,7 @@ public class ConnectSceneLogic : BaseSceneLogic
     {
         string scIndex = msgArgs;
         //SceneManager.LoadScene(scIndex);
-        SceneManager.LoadScene("Scenes/SampleScene");
+        SceneManager.LoadScene("Scenes/Map/"+scIndex);
     }
     
     

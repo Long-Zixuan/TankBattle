@@ -15,6 +15,7 @@ public class ClientState
 	public float y = 0;
 	public float z = 0;
 	public float eulY = 0;
+	public int score;
 }
 
 class ServesMain

@@ -21,5 +21,10 @@ public class StartSceneLogic : BaseSceneLogic
     {
         SceneManager.LoadScene("Scenes/Connect");
     }
+
+    public void quitBottonLogic()
+    {
+       Application.Quit(); 
+    }
     
 }

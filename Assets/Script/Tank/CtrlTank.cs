@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CtrlTank : BaseTank
+public class CtrlTank : BaseTank,IObjInScene
 {
     /*public KeyCode x_plus = KeyCode.W;
     public KeyCode x_minus = KeyCode.S;
@@ -17,6 +17,10 @@ public class CtrlTank : BaseTank
     // Update is called once per frame
     new void Update()
     {
+        if (_isStoping)
+        {
+            return;
+        }
         base.Update();
         FireLogic();
     }
@@ -30,10 +34,11 @@ public class CtrlTank : BaseTank
         {
             GameObject bulletObj = Instantiate(bulletPrefab);
             Bullet bulLogic = bulletObj.GetComponent<Bullet>();
+            sceneLogic.AddListener(bulLogic);
             bulLogic.Init(new Color(1,1,1));
             // 创建一颗子弹
             Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
-
+            _fire.Play();
             bullet.transform.forward = _tankGun.forward;         // 炮弹的朝向，与炮口朝向一致
             bullet.transform.position = _tankGun.position;       // 炮弹位置等于炮口位置
             bullet.velocity = new Vector3(this.transform.forward.x,0,transform.forward.z).normalized * fireSpeed;      // 炮弹的初速度，受fireSpeed字段控制
@@ -58,40 +63,6 @@ public class CtrlTank : BaseTank
     
     protected override void MoveLogic()
     {
-        /*if (Input.GetKeyDown(x_plus))
-        {
-            string sendMSG = "Move|"+NetManager.GetDesc()+"1";
-        }
-
-        if (Input.GetKeyDown(x_minus))
-        {
-            string sendMSG = "Move|"+NetManager.GetDesc()+"-1";
-            NetManager.Send(sendMSG);
-        }
-
-        if (Input.GetKeyDown(y_plus))
-        {
-            string sendMSG = "Rotate|" +NetManager.GetDesc()+ "1";
-            NetManager.Send(sendMSG);
-        }
-
-        if (Input.GetKeyDown(y_minus))
-        {
-            string sendMSG = "Rotate|"+NetManager.GetDesc()+ "-1";
-            NetManager.Send(sendMSG);
-        }
-
-        if (Input.GetKeyUp(x_plus) || Input.GetKeyUp(x_minus))
-        {
-            string sendMSG = "Move|" + "0";
-            NetManager.Send(sendMSG);
-        }
-
-        if (Input.GetKeyUp(y_plus) || Input.GetKeyUp(y_minus))
-        {
-            string sendMSG = "Rotate|" + "0";
-            NetManager.Send(sendMSG);
-        }*/
         float x = Input.GetAxis("Horizontal");          // 横向输入，键盘的A、D键
         float z = Input.GetAxis("Vertical");            // 纵向输入，键盘的W、S键
         x = normalFloat(x);
@@ -121,6 +92,11 @@ public class CtrlTank : BaseTank
     {
         print("Ctrl被击中了");
         NetManager.Send("Attacked|"+desc);
+    }
+
+    public void OnSceneStop()
+    {
+        _isStoping = true;
     }
     
 }

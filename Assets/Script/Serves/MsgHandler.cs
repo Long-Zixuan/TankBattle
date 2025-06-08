@@ -55,7 +55,7 @@ public class MsgHandler
 			sendStr+=cs.y.ToString() + ",";
 			sendStr+=cs.z.ToString() + ",";
 			sendStr+=cs.eulY.ToString() + ",";
-			//sendStr+=cs.hp.ToString() + ",";
+			sendStr+=cs.score.ToString() + ",";
 		}
 		ServesMain.Send(c, sendStr);
 	}
@@ -120,6 +120,22 @@ public class MsgHandler
 		foreach (ClientState cs in ServesMain.clients.Values){
 			ServesMain.Send(cs, sendStr);
 		}
+	}
+
+	public static void MsgPlusScore(ClientState c, string msgArgs)
+	{
+		//解析参数
+		string[] split = msgArgs.Split(',');
+		string winerDesc = split[0];
+		int plusScoreVal = int.Parse(split[1]);
+		ClientState winnerCS = null;
+		foreach (ClientState cs in ServesMain.clients.Values){
+			if(cs.socket.RemoteEndPoint.ToString() == winerDesc)
+				winnerCS = cs;
+		}
+		if(winnerCS == null) 
+			return;
+		winnerCS.score += plusScoreVal;
 	}
 
 	public static void MsgAttacked(ClientState c, string msgArgs){

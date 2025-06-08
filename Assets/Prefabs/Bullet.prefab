@@ -99,7 +99,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destoryTime: 5
-  _color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!54 &6230370302495460334
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -4,26 +4,26 @@ using System.Collections.Generic;
 //using TMPro.EditorUtilities;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour,IObjInScene
 {
     private float _speed;
-    private Rigidbody rb;
-
+    private Rigidbody _rb;
+    
     public float Speed
     {
         set => _speed = value;
     }
     
     public float destoryTime;
-    public Color _color;
+    
 
    // private Vector3 _velocity;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         
-       // _velocity = rb.velocity;
+        // _velocity = rb.velocity;
     }
 
     public void Init(Color color)
@@ -67,6 +67,14 @@ public class Bullet : MonoBehaviour
     void SelfDestory()
     {
        Destroy(gameObject); 
+    }
+    
+    public void OnSceneStop()
+    {
+        if (_rb != null)
+        {
+            _rb.velocity = Vector3.zero;
+        }
     }
     
     
