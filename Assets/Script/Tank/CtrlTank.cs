@@ -17,6 +17,7 @@ public class CtrlTank : BaseTank,IObjInScene
     // Update is called once per frame
     new void Update()
     {
+//        print("V:"+_rb.velocity);
         if (_isStoping)
         {
             return;

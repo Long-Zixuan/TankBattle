@@ -51,7 +51,7 @@ public class BaseTank : MonoBehaviour
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
         _tankGun = transform.Find("TankGun");
-        _move = GetComponent<AudioSource>();
+        _move = transform.Find("TankRenderers/TankTracksLeft").GetComponent<AudioSource>();
         _fire = _tankGun.gameObject.GetComponent<AudioSource>();
         _boom = transform.Find("TankRenderers").GetComponent<AudioSource>();
         if (bulletPrefab == null)
@@ -59,19 +59,30 @@ public class BaseTank : MonoBehaviour
             bulletPrefab = GameObject.Find("Bullet");
         }
     }
-    
+
+
+    protected Vector3 _lastFamePos = Vector3.zero;
+    protected Vector3 _thisFamePos = Vector3.zero;
+    bool _isMoving = false;
     void PlayAudioLogic()
     {
-        
-        if (Vector3.Distance(_rb.velocity, Vector3.zero) < 0.01f)
+        _thisFamePos = transform.position;
+        if (_lastFamePos == _thisFamePos)
         {
+            print("Tank Stop");
             _move.Stop();
+            _isMoving = false;
         }
         else
         {
-            _move.Play();
+            print("Tank Move");
+            if (!_isMoving)
+            {
+                _move.Play();
+                _isMoving = true;
+            }
         }
-
+        _lastFamePos = _thisFamePos;
     }
 
     // Update is called once per frame
