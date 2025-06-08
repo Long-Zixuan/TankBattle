@@ -39,7 +39,7 @@ public class BaseTank : MonoBehaviour
     public float speed = 2;
 
     // 坦克转身速度
-    public float turnSpeed = 5;
+    public float turnSpeed = 3;
     // 发射炮弹初速度
     public float fireSpeed = 20;
     public string desc = "";

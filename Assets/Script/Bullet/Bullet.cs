@@ -53,6 +53,10 @@ public class Bullet : MonoBehaviour,IObjInScene
         if (other.gameObject.CompareTag("Tank"))
         {
             BaseTank tank = other.gameObject.GetComponent<BaseTank>();
+            if (tank.IsDie)
+            {
+                return;
+            }
             tank.Attacked();
             SelfDestory();
         }
