@@ -59,7 +59,7 @@ public class ConnectUILogic : MonoBehaviour
         string msg = "";
         try
         {
-            if (int.Parse(ipInput.text) > 65535 || int.Parse(ipInput.text) < 0)
+            if (int.Parse(creatPortInput.text) > 65535 || int.Parse(creatPortInput.text) < 0)
             {
                 massage.text = "端口号在0-65535之间";
                 return;
