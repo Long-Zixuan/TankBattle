@@ -150,26 +150,31 @@ public class SceneMainLogic : BaseSceneLogic
 			Debug.Log("OnList " + desc + " " + x + " " + y + " " + z + " " + eulY + " " + score);
 			obj.transform.position = new Vector3(x, y, z);
 			obj.transform.eulerAngles = new Vector3(0, eulY, 0);
+			BaseTank h;
 			//是自己
 			if (desc == NetManager.GetDesc())
 			{
 				myTank = obj.AddComponent<CtrlTank>();
-				myTank.desc = desc;
-				myTank.Score = score;
+				h = myTank;
+				//myTank.desc = desc;
+				//myTank.Score = score;
 				localPlayerScore.GetComponent<Text>().text = score.ToString();
-				myTank.sceneLogic = this;
+				//myTank.sceneLogic = this;
 				AddListener((CtrlTank)myTank);
-				continue;
+				//continue;
 			}
-			BaseTank h = obj.AddComponent<SyncTank>();
+			else
+			{
+				h = obj.AddComponent<SyncTank>();
+				netTank = h;
+				netPlayerScore.GetComponent<Text>().text = score.ToString();
+				obj.transform.Find("TankRenderers/TankTurret").GetComponent<MeshRenderer>().material.color = Color.red;
+				AddListener((SyncTank)h);
+				otherHumans.Add(desc, h);
+			}
 			h.desc = desc;
 			h.Score = score;
-			netPlayerScore.GetComponent<Text>().text = score.ToString();
 			h.sceneLogic = this;
-			netTank = h;
-			obj.transform.Find("TankRenderers/TankTurret").GetComponent<MeshRenderer>().material.color = Color.red;
-			AddListener((SyncTank)h);
-			otherHumans.Add(desc, h);
 		}
 	}
 

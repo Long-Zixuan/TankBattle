@@ -69,13 +69,13 @@ public class BaseTank : MonoBehaviour
         _thisFamePos = transform.position;
         if (_lastFamePos == _thisFamePos)
         {
-            print("Tank Stop");
+//            print("Tank Stop");
             _move.Stop();
             _isMoving = false;
         }
         else
         {
-            print("Tank Move");
+  //          print("Tank Move");
             if (!_isMoving)
             {
                 _move.Play();
