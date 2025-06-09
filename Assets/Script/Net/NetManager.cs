@@ -79,19 +79,55 @@ public static class NetManager {
 		}
 	}
 
+	private static string _lastMsg = "";
 	//Update
 	public static void Update(){
 		if(msgList.Count <= 0)
 			return;
 		String msgStr = msgList[0];
+		msgStr = _lastMsg + msgStr;
+		_lastMsg = "";
 		MonoBehaviour.print("Receive:" + msgStr);
 		msgList.RemoveAt(0);
-		string[] split = msgStr.Split('|');
+
+		string[] msgs = msgStr.Split('$');
+		int flag = 0;
+		if (msgStr.Substring(msgStr.Length - 1) != "$")
+		{
+			_lastMsg = msgs[msgs.Length-1];
+			flag = 1;
+		}
+		int msgCount = msgs.Length;
+		for(int i = 0 ; i < msgCount - flag; i++)
+		{
+			if (msgs[i] == "")
+			{
+				continue;
+			}
+			string[] split = msgs[i].Split('|');
+			string msgName = split[0];
+			/*string msgArgs;
+			if (split.Length < 2)
+			{
+				msgArgs = "";
+				MonoBehaviour.print("----------ThisFunc args is null:"+msgName);
+			}
+			else
+			{
+				msgArgs = split[1];
+			}*/
+			string msgArgs = split[1];
+			//监听回调;
+			if(listeners.ContainsKey(msgName)){
+				listeners[msgName](msgArgs);
+			}
+		}
+		/*string[] split = msgStr.Split('|');
 		string msgName = split[0];
 		string msgArgs = split[1];
 		//监听回调;
 		if(listeners.ContainsKey(msgName)){
 			listeners[msgName](msgArgs);
-		}
+		}*/
 	}
 }

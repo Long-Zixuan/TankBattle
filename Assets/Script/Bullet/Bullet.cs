@@ -77,6 +77,7 @@ public class Bullet : MonoBehaviour,IObjInScene
     {
         if (_rb != null)
         {
+            CancelInvoke("SelfDestory");
             _rb.velocity = Vector3.zero;
         }
     }

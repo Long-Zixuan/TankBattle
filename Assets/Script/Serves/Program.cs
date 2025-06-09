@@ -116,7 +116,9 @@ class ServesMain
 		return true;
 	}
 	//发送
-	public static void Send(ClientState cs, string sendStr){
+	public static void Send(ClientState cs, string sendStr)
+	{
+		sendStr += "$";
 		byte[] sendBytes = System.Text.Encoding.Default.GetBytes(sendStr);
 		cs.socket.Send(sendBytes);
 	}

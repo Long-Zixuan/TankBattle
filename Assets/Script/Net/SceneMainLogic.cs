@@ -119,6 +119,10 @@ public class SceneMainLogic : BaseSceneLogic
 	new void Update(){
 		base.Update();
 		//chatTextLogic();
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();//凑合一下
+		}
 	}
 
 	

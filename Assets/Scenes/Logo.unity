@@ -317,14 +317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b43d35e81fad2147b5bde81a4384c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeInDuration: 1
-  delayBeforeFadeOut: 2
-  fadeOutDuration: 1
   shouldLoadNextScene: 1
   nextSceneName: Start
-  swithLogoTime: 2
   logos:
-  - {fileID: 1953118031}
+  - obj: {fileID: 1953118031}
+    delay: 2
 --- !u!114 &638672936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,12 +501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b43d35e81fad2147b5bde81a4384c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeInDuration: 1
-  delayBeforeFadeOut: 2
-  fadeOutDuration: 1
   shouldLoadNextScene: 1
   nextSceneName: Start
-  swithLogoTime: 1
   logos: []
 --- !u!1 &1953118031
 GameObject:

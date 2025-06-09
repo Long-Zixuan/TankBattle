@@ -2,13 +2,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+[System.Serializable]
+public struct Logo
+{
+    public GameObject obj;
+    public float delay;
+}
 public class GeneralFadeScript : MonoBehaviour
 {
-    //控制任意对象淡入淡出，延时，以及淡出后是否跳转场景
-
-    [Header("淡入，延时，淡出")] public float fadeInDuration = 1f; // 淡入时长
-    public float delayBeforeFadeOut = 2f; // 延迟淡出时长
-    public float fadeOutDuration = 1f; // 淡出时长
     [Header("跳转场景")] public bool shouldLoadNextScene = true; // 控制是否在淡出后跳转场景的开关
     public string nextSceneName; // 下一个场景的名称
 
@@ -16,10 +18,10 @@ public class GeneralFadeScript : MonoBehaviour
     private float timer; // 计时器
     private float delayTimer = 0f; // 延迟计时器
     private CanvasRenderer[] renderers;*/ // 存储所有相关的渲染器
-    private float timer;
-    public float swithLogoTime = 1;
+    private float _timer;
+    //public float swithLogoTime = 1;
 
-    public GameObject[] logos;
+    public Logo[] logos;
 
     void Start()
     {
@@ -27,35 +29,56 @@ public class GeneralFadeScript : MonoBehaviour
         {
             return;
         }
-        foreach (var logo in logos)
+
+        try
         {
-            logo.SetActive(false);
+            foreach (var logo in logos)
+            {
+                logo.obj.SetActive(false);
+            }
+
+            logos[0].obj.SetActive(true);
         }
-        logos[0].SetActive(true);
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error: Logo设置有问题，请检查是否给每个Logo设置了GameObject属性");
+            if (shouldLoadNextScene)
+            {
+                SceneManager.LoadScene(nextSceneName);
+            }
+        }
     }
 
     void Update()
     {
-        fadeInLogic();
+        FadeInLogic();
     }
 
-    private int logoIndex = 0;
-    void fadeInLogic()
+    private int _logoIndex = 0;
+    
+    void FadeInLogic()
     {
-        timer += Time.deltaTime;
-        if (timer > swithLogoTime)
+        if (_logoIndex >= logos.Length)
         {
-            timer = 0;
-            logos[logoIndex].SetActive(false);
-            logoIndex++;
-            if (logoIndex >= logos.Length && shouldLoadNextScene)
+            return;
+        }
+        _timer += Time.deltaTime;
+        if (_timer > logos[_logoIndex].delay)
+        {
+            _timer = 0;
+            logos[_logoIndex].obj.SetActive(false);
+            _logoIndex++;
+            if (_logoIndex >= logos.Length && shouldLoadNextScene)
             {
                 SceneManager.LoadScene(nextSceneName);
             }
-            else if (logoIndex < logos.Length)
+
+            if (_logoIndex >= logos.Length)
             {
-                logos[logoIndex].SetActive(true);
+                return;
             }
+
+            logos[_logoIndex].obj.SetActive(true);
         }
     }
 }
