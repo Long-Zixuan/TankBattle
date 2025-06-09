@@ -279,7 +279,7 @@ public class SceneMainLogic : BaseSceneLogic
 	private string nextSceneName;
 	public override void OnStart(string msgArgs)
 	{
-		print("加分等。。。。");
+		print("加载下一个场景："+msgArgs);
 		nextSceneName = "Scenes/Map/"+msgArgs;
 		//SceneManager.LoadScene(scIndex);
 		//SceneManager.LoadScene("Scenes/SampleScene");
