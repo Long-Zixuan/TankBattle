@@ -798,7 +798,7 @@ GameObject:
   - component: {fileID: 1270699808}
   - component: {fileID: 1270699807}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Version
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -857,7 +857,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Version\uFF1AAlpha4.1"
+  m_Text: "Version\uFF1AAlpha4.2"
 --- !u!222 &1270699808
 CanvasRenderer:
   m_ObjectHideFlags: 0
