@@ -131,6 +131,8 @@ public class ConnectUILogic : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log(e.ToString());
+            massage.text = "端口号是个数字";
+            return;
         }
         
         string errorMsg;
@@ -159,6 +161,7 @@ public class ConnectUILogic : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.Log(e.ToString());
+            massage.text = "连接失败";
         }
     }
 
