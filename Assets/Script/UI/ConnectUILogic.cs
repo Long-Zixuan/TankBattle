@@ -162,6 +162,7 @@ public class ConnectUILogic : MonoBehaviour
         {
             Debug.Log(e.ToString());
             massage.text = "连接失败";
+            connectUI.SetActive(true);
         }
     }
 
