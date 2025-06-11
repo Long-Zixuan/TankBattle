@@ -5,7 +5,7 @@ using UnityEngine;
 public class MsgManager
 {
 	private readonly static object lockObj = new object();
-    private static MsgManager _instance;
+    private static volatile MsgManager _instance;
 
     public static MsgManager Instance
     {

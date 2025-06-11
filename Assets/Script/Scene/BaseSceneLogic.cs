@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class BaseSceneLogic : MonoBehaviour
 {
-	static protected BaseSceneLogic _instance;
+	static protected volatile BaseSceneLogic _instance;
 
 	static public BaseSceneLogic Instance
 	{
