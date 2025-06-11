@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MsgManager
 {
+	private readonly static object lockObj = new object();
     private static MsgManager _instance;
 
     public static MsgManager Instance
@@ -12,7 +13,13 @@ public class MsgManager
         {
             if (_instance == null)
             {
-                _instance = new MsgManager();
+	            lock (lockObj)
+	            {
+		            if (_instance == null)
+		            {
+			            _instance = new MsgManager();
+		            }
+	            }
             }
             return _instance;
         }
