@@ -28,6 +28,11 @@ public class SceneMainLogic : BaseSceneLogic
 
 	private AudioSource _plusScore;
 
+	new void Awake()
+	{
+		base.Awake();
+	}
+
 	new void Start () {
 		base.Start();
 		NetManager.Send("List|");
@@ -165,7 +170,7 @@ public class SceneMainLogic : BaseSceneLogic
 				//myTank.Score = score;
 				localPlayerScore.GetComponent<Text>().text = score.ToString();
 				//myTank.sceneLogic = this;
-				AddListener((CtrlTank)myTank);
+				//AddListener((CtrlTank)myTank);
 				//continue;
 			}
 			else
@@ -174,12 +179,13 @@ public class SceneMainLogic : BaseSceneLogic
 				netTank = h;
 				netPlayerScore.GetComponent<Text>().text = score.ToString();
 				obj.transform.Find("TankRenderers/TankTurret").GetComponent<MeshRenderer>().material.color = Color.red;
-				AddListener((SyncTank)h);
+				//AddListener((SyncTank)h);
 				otherHumans.Add(desc, h);
 			}
 			h.desc = desc;
 			h.Score = score;
-			h.sceneLogic = this;
+			AddListener(h);
+			//h.sceneLogic = this;
 		}
 	}
 

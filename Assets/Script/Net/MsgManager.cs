@@ -29,14 +29,16 @@ public class MsgManager
         NetManager.AddListener("Fire", OnFire);
         NetManager.AddListener("Die", OnDie);
         NetManager.AddListener("Start", OnStart);
-        sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
-		
+        //sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
+        sceneLogic = BaseSceneLogic.Instance;
+
         //NetManager.AddListener("GetChatMSG",getChatMSG);
     }
 
     public void upDateSceneManage()
     {
-	    sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
+	    //sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
+	    sceneLogic = BaseSceneLogic.Instance;
     }
 
     public void upDateSceneManage(BaseSceneLogic logic)

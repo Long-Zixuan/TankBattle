@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class BaseSceneLogic : MonoBehaviour
 {
+	static protected BaseSceneLogic _instance;
+
+	static public BaseSceneLogic Instance
+	{
+		get
+		{
+			if (_instance == null)
+			{
+				_instance = GameObject.FindObjectOfType<BaseSceneLogic>();
+				print("Find SceneLogic");
+				if (_instance == null)
+				{
+					Debug.LogWarning("SceneLogic is null");
+				}
+			}
+			return _instance;
+		}
+	}
+	
 	protected List<IObjInScene>listeners = new List<IObjInScene>();
 
 	public void AddListener(IObjInScene listener)
@@ -20,10 +40,30 @@ public class BaseSceneLogic : MonoBehaviour
 			return _isStart;
 		}
 	}
-    // Start is called before the first frame update
+
+	protected void Awake()
+	{
+		if (_instance == null)
+		{
+			_instance = this;
+		}
+		else
+		{
+			if (_instance != this)
+			{
+				Destroy(this);
+				Debug.LogWarning("SceneManager only have one instance");
+				return;
+			}
+			print("Init yet");
+		}
+		MsgManager.Instance.upDateSceneManage(this);
+	}
+
+	// Start is called before the first frame update
     protected void Start()
     {
-        MsgManager.Instance.upDateSceneManage(this);
+	    //_instance = this;
     }
 
     // Update is called once per frame

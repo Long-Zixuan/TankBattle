@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SyncTank : BaseTank,IObjInScene
+public class SyncTank : BaseTank
 {
     private float moveX;
     
@@ -14,7 +14,8 @@ public class SyncTank : BaseTank,IObjInScene
         transform.position = position;
         GameObject bulletObj = Instantiate(bulletPrefab);
         Bullet bulLogic = bulletObj.GetComponent<Bullet>();
-        sceneLogic.AddListener(bulLogic);
+        //sceneLogic.AddListener(bulLogic);
+        BaseSceneLogic.Instance.AddListener(bulLogic);
         bulLogic.Init(Color.black);
         Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
         _fire.Play();
@@ -60,7 +61,7 @@ public class SyncTank : BaseTank,IObjInScene
         _rb.angularVelocity = new Vector3(0, moveX, 0) * turnSpeed;
     }
 
-    public void OnSceneStop()
+    public override void OnSceneStop()
     {
         moveX = 0;
         moveZ = 0;

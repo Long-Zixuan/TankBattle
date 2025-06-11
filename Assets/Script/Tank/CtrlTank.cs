@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CtrlTank : BaseTank,IObjInScene
+public class CtrlTank : BaseTank
 {
     /*public KeyCode x_plus = KeyCode.W;
     public KeyCode x_minus = KeyCode.S;
@@ -35,7 +35,8 @@ public class CtrlTank : BaseTank,IObjInScene
         {
             GameObject bulletObj = Instantiate(bulletPrefab);
             Bullet bulLogic = bulletObj.GetComponent<Bullet>();
-            sceneLogic.AddListener(bulLogic);
+            //sceneLogic.AddListener(bulLogic);
+            BaseSceneLogic.Instance.AddListener(bulLogic);
             bulLogic.Init(new Color(1,1,1));
             // 创建一颗子弹
             Rigidbody bullet = bulletObj.GetComponent<Rigidbody>();
@@ -95,7 +96,7 @@ public class CtrlTank : BaseTank,IObjInScene
         NetManager.Send("Attacked|"+desc);
     }
 
-    public void OnSceneStop()
+    public override void OnSceneStop()
     {
         _isStoping = true;
     }

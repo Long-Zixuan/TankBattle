@@ -4,19 +4,25 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class BaseTank : MonoBehaviour
+public class BaseTank : MonoBehaviour,IObjInScene
 {
     public Animator _animator;
     
     public GameObject bulletPrefab;
-    protected Rigidbody _rb;
+    [Header("Move")]
+    // 坦克移动速度
+    public float speed = 2;
 
-    protected bool _isDie = false;
+    // 坦克转身速度
+    public float turnSpeed = 3;
+    // 发射炮弹初速度
+    public float fireSpeed = 20;
+    public string desc = "";
 
-    protected AudioSource _move;
-    protected AudioSource _fire;
-    protected AudioSource _boom;
+    //public BaseSceneLogic sceneLogic;
     
+    protected Rigidbody _rb;
+    protected bool _isDie = false;
     
     public bool IsDie
     {
@@ -24,6 +30,10 @@ public class BaseTank : MonoBehaviour
         set { _isDie = value; }
     }
 
+    protected AudioSource _move;
+    protected AudioSource _fire;
+    protected AudioSource _boom;
+    
     protected int _score;
 
     public int Score
@@ -35,16 +45,7 @@ public class BaseTank : MonoBehaviour
     protected bool _isStoping = false;
 
     protected Transform _tankGun;
-    // 坦克移动速度
-    public float speed = 2;
-
-    // 坦克转身速度
-    public float turnSpeed = 3;
-    // 发射炮弹初速度
-    public float fireSpeed = 20;
-    public string desc = "";
-
-    public BaseSceneLogic sceneLogic;
+  
     // Start is called before the first frame update
     protected void Start()
     {
@@ -128,6 +129,11 @@ public class BaseTank : MonoBehaviour
     }
 
     protected virtual void MoveLogic()
+    {
+        
+    }
+    
+    public virtual void OnSceneStop()
     {
         
     }

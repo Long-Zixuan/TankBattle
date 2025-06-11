@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneLogic : BaseSceneLogic
 {
+    new void Awake()
+    {
+        base.Awake();
+    }
     // Start is called before the first frame update
     new void Start()
     {

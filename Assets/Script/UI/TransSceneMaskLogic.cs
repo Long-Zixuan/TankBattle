@@ -17,7 +17,8 @@ public class TransSceneMaskLogic : MonoBehaviour,IObjInScene
     {
         //_im.gameObject.SetActive(true);
 
-        _sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
+        //_sceneLogic = GameObject.FindObjectOfType<BaseSceneLogic>();
+        _sceneLogic = BaseSceneLogic.Instance;
         _sceneLogic.AddListener(this);
         _im = GetComponent<Image>();
         

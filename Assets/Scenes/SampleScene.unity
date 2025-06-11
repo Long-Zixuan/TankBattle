@@ -203,7 +203,6 @@ MonoBehaviour:
   turnSpeed: 3
   fireSpeed: 20
   desc: 
-  sceneLogic: {fileID: 963194229}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,8 +606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b55e8b57b15ead4d902d406d32cfd18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerScore: {fileID: 0}
-  netPlayerScore: {fileID: 0}
+  localPlayerScore: {fileID: 2089110258}
+  netPlayerScore: {fileID: 2089110258}
   tankPrefab: {fileID: 1291786876335809309, guid: 85deba3e3f7373b4cba59ed3c9ea54ac, type: 3}
   myTank: {fileID: 0}
   bornPoints:
